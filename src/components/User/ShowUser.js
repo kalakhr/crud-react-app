@@ -29,19 +29,19 @@ const ShowUser = () => {
   };
 
   useEffect(() => {
+    const getUsers = () => {
+      axios
+        .get(showUserApi)
+        .then((res) => {
+          setUser(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    
     getUsers();
   }, []);
-
-  const getUsers = () => {
-    axios
-      .get(showUserApi)
-      .then((res) => {
-        setUser(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   if (user.length < 0) {
     return <h1>no user found</h1>;

@@ -4,27 +4,29 @@ import { useParams, useNavigate } from "react-router-dom";
 import Loader from "../Common/Loader";
 import "./User.css";
 const EditUser = () => {
-  const [user, setUser] = useState([]);
-  const [error, setError] = useState(null);
+  const [user, setUser] = useState({id: "", name: "", email: "", phone: ""});
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
   const getUserApi = "http://localhost:3000/user";
 
-  useEffect(() => {
-    getUser();
-  }, []);
+  
 
-  const getUser = () => {
-    axios
-      .get(getUserApi.concat("/") + id)
-      .then((item) => {
-        setUser(item.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  useEffect(() => {
+    const getUser = () => {
+      axios
+        .get(getUserApi.concat("/") + id)
+        .then((item) => {
+          setUser(item.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+  
+    getUser();
+  }, [id]);
 
   const handelInput = (e) => {
     e.preventDefault();
@@ -56,19 +58,19 @@ const EditUser = () => {
       .catch((error) => {
         setError(error.message);
         setIsLoading(false);
-      })
+      });
   };
 
   return (
     <div className="user-form">
       <div className="heading">
-      {isLoading && <Loader />}
-      {error && <p>Error: {error}</p>}
+        {isLoading && <Loader />}
+        {error && <p>Error: {error}</p>}
         <p>Edit Form</p>
       </div>
       <form onSubmit={handelSubmit}>
         <div className="mb-3">
-          <label for="name" className="form-label">
+          <label htmlFor="name" className="form-label">
             Name
           </label>
           <input
@@ -81,7 +83,7 @@ const EditUser = () => {
           />
         </div>
         <div className="mb-3 mt-3">
-          <label for="email" className="form-label">
+          <label htmlFor="email" className="form-label">
             Email
           </label>
           <input
@@ -94,7 +96,7 @@ const EditUser = () => {
           />
         </div>
         <div className="mb-3">
-          <label for="pwd" className="form-label">
+          <label htmlFor="pwd" className="form-label">
             Phone
           </label>
           <input

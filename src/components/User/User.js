@@ -8,19 +8,19 @@ const EditUser = () => {
   const getUserApi = "http://localhost:3000/user";
 
   useEffect(() => {
-    getUser();
-  }, []);
+    const getUser = () => {
+      axios
+        .get(getUserApi.concat("/") + id)
+        .then((item) => {
+          setUser(item.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
 
-  const getUser = () => {
-    axios
-      .get(getUserApi.concat("/") + id)
-      .then((item) => {
-        setUser(item.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+    getUser();
+  }, [id]);
 
   return (
     <div className="user mt-5">
